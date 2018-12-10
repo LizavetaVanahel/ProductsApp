@@ -1,54 +1,95 @@
 import * as React from 'react';
-import { Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
-import ProductsList from '/ProductsList';
+import {
+  Text,
+  View,
+  TextInput,
+  ActivityIndicator,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import { Font } from 'expo';
 import styles from './Styles';
-
+import ProductsList from './ProductsList';
 export default class Login extends React.Component<{}> {
-   componentDidMount() {
+  constructor(props) {
+    super(props);
+    this.state = { isLoading: true };
+    this.state = { username: '' };
+    this.state = { password: '' };
+  }
+
+  componentDidMount() {
     Font.loadAsync({
-      'vincHand': require('../assets/fonts/VINCHAND.ttf'),
+      vincHand: require('../assets/fonts/VINCHAND.ttf'),
     });
   }
-  constructor(props){
-    super(props)
-    this.state = { showResults: true };
-  }
-
-  showProductsList = () => {
-       this.setState({ showResults: false })
-   }
+  handleClick = () => {
+    return fetch(
+      'http://ecsc00a02fb3.epam.com/index.php/rest/V1/integration/customer/token',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: this.state.username,
+          password: this.state.password,
+        }),
+      }
+    )
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log(responseJson);
+        this.setState(
+          {
+            isLoading: false,
+          },
+          function() {}
+        );
+      }).catch((error) =>{
+        Alert.alert('Login failed due to:' + error);
+        throw new Error(error);
+      });
+  };
 
   render() {
-      if (this.state.showResults == true) {
-       return (
+    if (this.state.isLoading) {
+      return (
+        <View style={{ flex: 1, padding: 20 }}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+    return (
       <View style={styles.container}>
-        <Image style={styles.loginLogo} source={require('../assets/cart.png')} />
-         <Text style={styles.title}>
-           Friday's shop
-        </Text>
-         <TextInput placeholderTextColor={'#39C2D7'}
+        <Image
+          style={styles.loginLogo}
+          source={require('../assets/cart.png')}
+        />
+        <Text style={styles.title}>Friday's shop</Text>
+        <TextInput
+          placeholderTextColor={'#39C2D7'}
           style={styles.loginFieldText}
           placeholder="email"
+          onChangeText={username => this.setState({ username })}
         />
-        <TextInput  placeholderTextColor={'#39C2D7'}
+        <TextInput
+          placeholderTextColor={'#39C2D7'}
           style={styles.loginFieldText}
           placeholder="Text box"
+          onChangeText={password => this.setState({ password })}
         />
-          <TouchableOpacity onPress={this.showProductsList} >
-         <Text style={styles.button}>
-           login
-        </Text>
-    </TouchableOpacity>
+        <TouchableOpacity
+          onPress={
+            (() => this.handleClick().then(() => this.props.navigation.navigate('ProductsList'))
+            )
+          }>
+          <Text style={styles.button}>login</Text>
+        </TouchableOpacity>
       </View>
-      ); } else {
-        return ( 
-          <View style = {styles.view}>
-          <ProductsList/>
-          </View>
-        );
-        }
-    }
+    );
+  }
 }
-
-
