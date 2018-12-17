@@ -8,7 +8,7 @@ export default StyleSheet.create({
     borderRadius: 2,
     borderWidth: 2,
     width: 150,
-    fontFamily: "vincHand",
+    fontFamily: 'vincHand',
     borderColor: '#CEDB56',
     backgroundColor: '#76cdd8',
   },
@@ -18,7 +18,7 @@ export default StyleSheet.create({
     padding: 24,
   },
   title: {
-    fontFamily: "vincHand",
+    fontFamily: 'vincHand',
     margin: 24,
     fontSize: 30,
     marginTop: 1,
@@ -26,7 +26,7 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   loginFieldText: {
-    fontFamily: "vincHand",
+    fontFamily: 'vincHand',
     margin: 24,
     fontSize: 20,
     marginTop: 1,
@@ -46,12 +46,12 @@ export default StyleSheet.create({
   },
   productListContainer: {
     marginTop: 30,
-    height:300,
+    height: 300,
     flexDirection: 'column',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
   },
   productParagraph: {
-    fontFamily: "vincHand",
+    fontFamily: 'vincHand',
     fontSize: 15,
     height: 200,
     fontWeight: 'bold',
@@ -63,19 +63,19 @@ export default StyleSheet.create({
     width: 15,
   },
   rightContainer: {
-      paddingLeft: 250,
+    paddingLeft: 250,
     flexDirection: 'row',
-    justifyContent:'flex-end',
+    justifyContent: 'flex-end',
   },
   leftContainer: {
     paddingLeft: 10,
     flexDirection: 'row',
-    justifyContent:'flex-start',
+    justifyContent: 'flex-start',
   },
   productViewParagraph: {
     paddingLeft: 10,
     fontSize: 15,
-    fontFamily: "vincHand",
+    fontFamily: 'vincHand',
     flexDirection: 'row',
     fontWeight: 'normal',
     textAlign: 'center',
@@ -85,5 +85,5 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     height: 15,
     width: 15,
-  }
+  },
 });
