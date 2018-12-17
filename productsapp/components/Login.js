@@ -18,12 +18,14 @@ export default class Login extends React.Component<{}> {
     this.state = { isLoading: true };
     this.state = { username: '' };
     this.state = { password: '' };
+    this.state = { fontLoaded: false };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     Font.loadAsync({
       vincHand: require('../assets/fonts/VINCHAND.ttf'),
     });
+    this.setState({ fontLoaded: true });
   }
   handleClick = () => {
     return fetch(
@@ -49,14 +51,15 @@ export default class Login extends React.Component<{}> {
           },
           function() {}
         );
-      }).catch((error) =>{
+      })
+      .catch(error => {
         Alert.alert('Login failed due to:' + error);
         throw new Error(error);
       });
   };
 
   render() {
-    if (this.state.isLoading) {
+    if (this.state.isLoading || !this.state.fontLoaded) {
       return (
         <View style={{ flex: 1, padding: 20 }}>
           <ActivityIndicator />
@@ -83,8 +86,8 @@ export default class Login extends React.Component<{}> {
           onChangeText={password => this.setState({ password })}
         />
         <TouchableOpacity
-          onPress={
-            (() => this.handleClick().then(() => this.props.navigation.navigate('ProductsList'))
+          onPress={() =>
+            this.handleClick().then(this.props.navigation.navigate('ProductsListScreen')
             )
           }>
           <Text style={styles.button}>login</Text>
