@@ -1,20 +1,56 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { Constants } from 'expo';
+import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
+import { Constants, Font } from 'expo';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-// You can import from local files
 import Login from './components/Login';
+import ProductList from './components/ProductList';
+import Product from './components/Product';
+import NotificationModal from './components/NotificationModal';
 
-// or any pure javascript modules available in npm
 import { Card } from 'react-native-paper';
 
-export default class App extends React.Component<{}> {
-
+class App extends React.Component<{}> {
+    constructor(props) {
+     super(props);
+    this.state = { fontLoaded: false };
+  }
+    componentWillMount() {
+    Font.loadAsync({
+      vincHand: require('../assets/fonts/VINCHAND.ttf'),
+    });
+    this.setState({ fontLoaded: true });
+  }
   render() {
+    if (!this.state.fontLoaded) {
+    <View>
+        <ActivityIndicator />
+      </View>
+    } else {
     return (
       <View>
-        <Login />
+        <AppStackNavigator />
       </View>
     );
+    }
   }
 }
+
+const AppStackNavigator = createStackNavigator({
+  LoginScreen: Login,
+  ProductListScreen: {
+    screen: ProductList,
+    navigationOptions: ({ navigation }) => ({
+      title: `ProductList`,
+    }),
+  },
+  ProductScreen: {
+    screen: Product,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params.label} `,
+    }),
+  },
+  NotificationModal: NotificationModal,
+});
+
+export default createAppContainer(AppStackNavigator);
