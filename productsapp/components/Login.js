@@ -5,21 +5,18 @@ import {
   TextInput,
   ActivityIndicator,
   Image,
-  FlatList,
   TouchableOpacity,
   Alert,
 } from 'react-native';
 import { Font } from 'expo';
 import styles from './Styles';
-import ProductsList from './ProductsList';
-export default class Login extends React.Component<{}> {
-  constructor(props) {
-    super(props);
-    this.state = { isLoading: true };
-    this.state = { username: '' };
-    this.state = { password: '' };
-    this.state = { fontLoaded: false };
-  }
+export default class Login extends React.Component {
+  state = {
+    isCredValid: false,
+    username: '',
+    password: '',
+    fontLoaded: false,
+  };
 
   componentWillMount() {
     Font.loadAsync({
@@ -44,27 +41,20 @@ export default class Login extends React.Component<{}> {
     )
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson);
-        this.setState(
-          {
-            isLoading: false,
-          },
-          function() {}
-        );
+        if (responseJson.message == null) {
+          this.props.navigation.navigate('ProductsListScreen');
+        } else {
+          Alert.alert('Your credentials are invalid. Please try again');
+        }
       })
       .catch(error => {
         Alert.alert('Login failed due to:' + error);
-        throw new Error(error);
       });
   };
 
   render() {
-    if (this.state.isLoading || !this.state.fontLoaded) {
-      return (
-        <View style={{ flex: 1, padding: 20 }}>
-          <ActivityIndicator />
-        </View>
-      );
+    if (!this.state.fontLoaded) {
+      return <ActivityIndicator />;
     }
     return (
       <View style={styles.container}>
@@ -85,11 +75,7 @@ export default class Login extends React.Component<{}> {
           placeholder="Text box"
           onChangeText={password => this.setState({ password })}
         />
-        <TouchableOpacity
-          onPress={() =>
-            this.handleClick().then(this.props.navigation.navigate('ProductsListScreen')
-            )
-          }>
+        <TouchableOpacity onPress={this.handleClick}>
           <Text style={styles.button}>login</Text>
         </TouchableOpacity>
       </View>
