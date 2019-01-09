@@ -12,7 +12,6 @@ import { Font } from 'expo';
 import styles from './Styles';
 export default class Login extends React.Component {
   state = {
-    isCredValid: false,
     username: '',
     password: '',
     fontLoaded: false,
