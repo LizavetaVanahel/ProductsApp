@@ -1,20 +1,28 @@
 import * as React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { Constants } from 'expo';
+import { Text, View } from 'react-native';
+import { Constants, Font } from 'expo';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 
-// You can import from local files
 import Login from './components/Login';
+import ProductList from './components/ProductList';
+import Product from './components/Product';
+import NotificationModal from './components/NotificationModal';
 
-// or any pure javascript modules available in npm
-import { Card } from 'react-native-paper';
+const AppStackNavigator = createStackNavigator({
+  LoginScreen: Login,
+  ProductListScreen: {
+    screen: ProductList,
+    navigationOptions: ({ navigation }) => ({
+      title: `ProductList`,
+    }),
+  },
+  ProductScreen: {
+    screen: Product,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params.label} `,
+    }),
+  },
+  NotificationScreen: NotificationModal
+});
 
-export default class App extends React.Component<{}> {
-
-  render() {
-    return (
-      <View>
-        <Login />
-      </View>
-    );
-  }
-}
+export default createAppContainer(AppStackNavigator);

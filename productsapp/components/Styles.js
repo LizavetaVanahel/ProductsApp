@@ -4,13 +4,17 @@ export default StyleSheet.create({
   button: {
     fontSize: 25,
     fontWeight: 'normal',
-    textAlign: 'center',
+    alignItems: 'center',
     borderRadius: 2,
     borderWidth: 2,
     width: 150,
     fontFamily: 'vincHand',
     borderColor: '#CEDB56',
     backgroundColor: '#76cdd8',
+  },
+  text: {
+    fontFamily: 'vincHand',
+    fontSize: 25,
   },
   container: {
     alignItems: 'center',
@@ -28,14 +32,14 @@ export default StyleSheet.create({
   loginFieldText: {
     fontFamily: 'vincHand',
     margin: 24,
-    fontSize: 20,
+    fontSize: 25,
     marginTop: 1,
-    fontWeight: 'bold',
     textAlign: 'center',
     width: 300,
     backgroundColor: '#CCCCCC',
   },
   loginLogo: {
+    fontFamily: 'vincHand',
     height: 50,
     width: 50,
   },
@@ -58,6 +62,7 @@ export default StyleSheet.create({
     textAlign: 'left',
   },
   poductLogo: {
+    fontFamily: 'vincHand',
     alignItems: 'flex-start',
     height: 15,
     width: 15,
@@ -81,9 +86,34 @@ export default StyleSheet.create({
     textAlign: 'center',
   },
   productViewLogo: {
+    fontFamily: 'vincHand',
     flexDirection: 'row',
     justifyContent: 'flex-end',
     height: 15,
     width: 15,
   },
+    modalButton: {
+    fontSize: 25,
+    fontWeight: 'normal',
+    textAlign: 'center',
+    borderRadius: 2,
+    borderWidth: 2,
+    width: 100,
+    marginTop: 20,
+    marginLeft: 100,
+    alignItems: 'center',
+    fontFamily: 'vincHand',
+    borderColor: '#CEDB56',
+    backgroundColor: '#76cdd8',
+  },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 30,
+    marginRight: 30,
+    width: 300,
+    height: 300,
+    textAlign: 'center',
+  }
 });

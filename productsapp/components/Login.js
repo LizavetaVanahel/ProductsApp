@@ -1,54 +1,74 @@
 import * as React from 'react';
-import { Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
-import { Font } from 'expo';
+import {
+  Text,
+  View,
+  TextInput,
+  ActivityIndicator,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import styles from './Styles';
-import ProductsList from './ProductsList';
-export default class Login extends React.Component<{}> {
-  constructor(props) {
-    super(props);
-    this.state = { showProductsList: false };
-  }
+import ProductsAppText from './ProductsAppText';
 
-  componentDidMount() {
-    Font.loadAsync({
-      vincHand: require('../assets/fonts/VINCHAND.ttf'),
-    });
-  }
+export default class Login extends React.Component {
+  state = {
+    username: '',
+    password: '',
+  };
 
-  showProductsList = () => {
-    this.setState({ showProductsList: true });
+  handleClick = () => {
+    return fetch(
+      'http://ecsc00a02fb3.epam.com/index.php/rest/V1/integration/customer/token',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: this.state.username,
+          password: this.state.password,
+        }),
+      }
+    )
+      .then(response => response.json())
+      .then(responseJson => {
+        if (responseJson.message == null) {
+          this.props.navigation.navigate('ProductListScreen');
+        } else {
+          this.props.navigation.navigate('NotificationScreen');
+        }
+      })
+      .catch(error => {
+        Alert.alert('Login failed due to:' + error);
+      });
   };
 
   render() {
-    if (!this.state.showProductsList) {
-      return (
-        <View style={styles.container}>
-          <Image
-            style={styles.loginLogo}
-            source={require('../assets/cart.png')}
-          />
-          <Text style={styles.title}>Friday's shop</Text>
-          <TextInput
-            placeholderTextColor={'#39C2D7'}
-            style={styles.loginFieldText}
-            placeholder="email"
-          />
-          <TextInput
-            placeholderTextColor={'#39C2D7'}
-            style={styles.loginFieldText}
-            placeholder="Text box"
-          />
-          <TouchableOpacity onPress={this.showProductsList}>
-            <Text style={styles.button}>login</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    } else {
-      return (
-        <View>
-          <ProductsList />
-        </View>
-      );
-    }
+    return (
+      <View style={styles.container}>
+        <Image
+          style={styles.loginLogo}
+          source={require('../assets/cart.png')}
+        />
+        <ProductsAppText style={styles.title}>Friday's shop</ProductsAppText>
+        <TextInput
+          placeholderTextColor={'#39C2D7'}
+          style={styles.loginFieldText}
+          placeholder="email"
+          onChangeText={username => this.setState({ username })}
+        />
+        <TextInput
+          placeholderTextColor={'#39C2D7'}
+          style={styles.loginFieldText}
+          placeholder="Text box"
+          onChangeText={password => this.setState({ password })}
+        />
+        <TouchableOpacity style={styles.button} onPress={this.handleClick}>
+          <ProductsAppText>login</ProductsAppText>
+        </TouchableOpacity>
+      </View>
+    );
   }
 }

@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import ProductsAppText from './ProductsAppText';
 import styles from './Styles';
 
 export default function ProductsListItem({ onPress, label, logo }) {
   return (
     <View style={styles.leftContainer}>
       <Image style={styles.productViewLogo} source={logo} />
-      <Text style={styles.productViewParagraph}>{label}</Text>
+      <ProductsAppText style={styles.productViewParagraph}>{label}</ProductsAppText>
       <TouchableOpacity style={styles.rightContainer} onPress={onPress}>
         <Image
           style={styles.productViewLogo}
